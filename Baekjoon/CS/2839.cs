@@ -2,7 +2,7 @@ using System;
 
 namespace Solution
 {
-    public class Solution
+    public class Solution_2839
     {
         public static void Main(string[] args)
         {

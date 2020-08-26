@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Solution
 {
-    class Solution
+    public class Solution_2750
     {
         public static void Main(string[] args)
         {
