@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Solution
 {
-    public class Solution_1541
-    {
-        public static void Main(string[] args)
-        {
-            string str = Console.ReadLine();
+	public class Solution_1541
+	{
+		public static void Main(string[] args)
+		{
+			string str = Console.ReadLine();
 			List<int> list = new List<int>();
 			
 			string tempStr = string.Empty;
@@ -40,6 +40,6 @@ namespace Solution
 					answer += list[i];
 			}
 			Console.WriteLine(answer);
-        }
-    }
+		}
+	}
 }
