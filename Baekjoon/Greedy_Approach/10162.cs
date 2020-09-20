@@ -2,11 +2,11 @@ using System;
 
 namespace Solution
 {
-    public class Solution_10162
-    {
-        public static void Main(string[] args)
-        {
-            int T = int.Parse(Console.ReadLine());
+	public class Solution_10162
+	{
+		public static void Main(string[] args)
+		{
+			int T = int.Parse(Console.ReadLine());
 			int A = 0;
 			int B = 0;
 			int C = 0;
@@ -16,7 +16,7 @@ namespace Solution
 			if(A > 0)
 				T = T - A * 300;
 			
-            B = T / 60;
+			B = T / 60;
 			if(B > 0)
 				T = T - B * 60;
 			
@@ -29,7 +29,7 @@ namespace Solution
 			else
 				answer = "-1";
 			
-            Console.WriteLine(answer);
-        }
-    }
+			Console.WriteLine(answer);
+		}
+	}
 }
