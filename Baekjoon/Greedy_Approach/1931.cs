@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-//2nd Try -> Timeout Failed
+//1st Try -> Timeout Failed
 namespace Solution
 {
     public class Solution_1931
