@@ -58,9 +58,9 @@ int partition(int leftIdx, int rightIdx, int** data){
     int highIdx = rightIdx;
 
     while(lowIdx <= highIdx){
-        while(pivotItem >= data[lowIdx][1] && lowIdx < rightIdx)
+        while(lowIdx < rightIdx && pivotItem >= data[lowIdx][1])
             lowIdx++;
-        while(pivotItem <= data[highIdx][1] && leftIdx < highIdx)
+        while(leftIdx < highIdx && pivotItem <= data[highIdx][1])
             highIdx--;
         if(lowIdx <= highIdx)
             swap(lowIdx, highIdx, data);
