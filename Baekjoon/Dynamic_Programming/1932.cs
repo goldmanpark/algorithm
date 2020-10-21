@@ -1,7 +1,5 @@
 using System;
-/*
-    at n-th floor, 
-*/
+
 namespace Solution
 {
     public class Solution_1932
@@ -33,6 +31,12 @@ namespace Solution
             }
 
             //get maxvalue from memo[N-1,]
+            int maxVal = 0;
+            for(int i = 0 ; i < N ; i++){
+                if(memo[N - 1, i] > maxVal)
+                    maxVal = memo[N - 1, i];
+            }
+            Console.WriteLine(maxVal);
         }
     }
 }
