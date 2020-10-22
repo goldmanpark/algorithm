@@ -5,6 +5,7 @@ using System.Collections.Generic;
     
     So,
     f(n) = max{f(n-1) + stairs[N], f(n-2) + stairs[N]}
+
     But,
     f(k) = f(k-1) + stairs[k]
     f(k-1) = f(k-2) + stairs[k-1]
@@ -17,7 +18,7 @@ namespace Solution
     {
         static int[] stairs;
         static int[] memo;
-        static ArrayList<int> idxHist;
+        static List<int> idxHist;
 
         public static void Main(string[] args)
         {
@@ -29,7 +30,8 @@ namespace Solution
                 stairs[i] = int.Parse(Console.ReadLine());
             }
             memo[1] = stairs[1];
-
+            memo[2] = stairs[1] + stairs[2];
+            Console.WriteLine(GetSolution(N));
         }
 
         private static int GetSolution(int n)
@@ -40,9 +42,22 @@ namespace Solution
                 int x = GetSolution(n - 1) + stairs[n];
                 int y = GetSolution(n - 2) + stairs[n];
                 int i = idxHist.Count;
-                if(i >= 2 && idxHist[i - 1] == idxHist[i - 2] + 1){
-                    
+
+                if(i >= 2 && idxHist[i - 1] == idxHist[i - 2] + 1 && i == n){
+                    memo[n] = y;
+                    idxHist.Add(n - 2);
                 }
+                else{
+                    if(x >= y){
+                        memo[n] = x;
+                        idxHist.Add(n - 1);
+                    }
+                    else{
+                        memo[n] = y;
+                        idxHist.Add(n - 2);
+                    }
+                }
+                return memo[n];
             }
         }
     }
