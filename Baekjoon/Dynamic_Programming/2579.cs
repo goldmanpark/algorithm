@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 /*
+    2020.11.10 Not Complete
+    
     f(n) = max point on n-th stairs
     
     So,
@@ -30,8 +32,8 @@ namespace Solution
             for(int i = 1 ; i <= N ; i++){
                 stairs[i] = int.Parse(Console.ReadLine());
             }
-            memo[1] = stairs[1];
-            memo[2] = stairs[1] + stairs[2];
+            //memo[1] = stairs[1];
+            //memo[2] = stairs[1] + stairs[2];
             idxHist.Add(0);
 
             Console.WriteLine(GetSolution(N));
@@ -45,6 +47,21 @@ namespace Solution
         {
             if(memo[n] != 0)
                 return memo[n];
+            if(n == 3){
+                // 0 -> 1 -> 3
+                // 0 -> 2 -> 3
+                if(stairs[1] >= stairs[2]){
+                    memo[1] = stairs[1];
+                    memo[3] = memo[1] + stairs[3];
+                    idxHist.Add(1);
+                }
+                else{
+                    memo[2] = stairs[2];
+                    memo[3] = memo[2] + stairs[3];
+                    idxHist.Add(2);
+                }
+                return memo[3];
+            }
             else
             {
                 int x = GetSolution(n - 1) + stairs[n];
