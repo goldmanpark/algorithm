@@ -1,18 +1,15 @@
 using System;
 using System.Collections.Generic;
 /*
-    2020.11.10 Not Complete
-    
-    f(n) = max point on n-th stairs
+    2020.11.11 Not Complete : IndexOutOfRangeException
+
+    f(n) = max point on n-th stairs, but 3-times continous process is banned.
     
     So,
-    f(n) = max{f(n-1) + stairs[N], f(n-2) + stairs[N]}
-
-    But,
-    f(k) = f(k-1) + stairs[k]
-    f(k-1) = f(k-2) + stairs[k-1]
-    f(k-2) = f(k-3) + stairs[k-2]
-    like this, 3-times continous process is banned.
+    if stairs[n-2] is not visited
+        f(n) = stairs[N] + max{f(n-1), f(n-2)} 
+    else
+        f(n) = stairs[N] + f(n-2)
 */
 namespace Solution
 {
@@ -20,87 +17,40 @@ namespace Solution
     {
         static int[] stairs;
         static int[] memo;
-        static List<int> idxHist;   //history of stepping on the stairs, storing steps(index of stairs).
+        static bool[] visited;
 
         public static void Main(string[] args)
         {
             int N = int.Parse(Console.ReadLine());
             stairs = new int[N + 1];
             memo = new int[N + 1];
-            idxHist = new List<int>();
+            visited = new bool[N + 1];
 
             for(int i = 1 ; i <= N ; i++){
                 stairs[i] = int.Parse(Console.ReadLine());
             }
-            //memo[1] = stairs[1];
-            //memo[2] = stairs[1] + stairs[2];
-            idxHist.Add(0);
-
+            memo[1] = stairs[1];
+            
             Console.WriteLine(GetSolution(N));
-            for(int i = 0 ; i <= N ; i++)
-                Console.Write(memo[i].ToString() + " ");
-            Console.WriteLine();
-            idxHist.ForEach((x) => { Console.Write(x.ToString() + " "); });
+            // for(int i = 0 ; i <= N ; i++)
+            //     Console.Write(memo[i].ToString() + " ");
+            // Console.WriteLine();
+            // idxHist.ForEach((x) => { Console.Write(x.ToString() + " "); });
         }
 
         private static int GetSolution(int n)
         {
             if(memo[n] != 0)
                 return memo[n];
-            if(n == 3){
-                // 0 -> 1 -> 3
-                // 0 -> 2 -> 3
-                if(stairs[1] >= stairs[2]){
-                    memo[1] = stairs[1];
-                    memo[3] = memo[1] + stairs[3];
-                    idxHist.Add(1);
+            else{
+                if(visited[n - 2]){
+                    visited[n - 1] = true;
+                    memo[n] = stairs[n] + GetSolution(n - 1);
                 }
                 else{
-                    memo[2] = stairs[2];
-                    memo[3] = memo[2] + stairs[3];
-                    idxHist.Add(2);
-                }
-                return memo[3];
-            }
-            else
-            {
-                int x = GetSolution(n - 1) + stairs[n];
-                int y = GetSolution(n - 2) + stairs[n];
-
-                if(idxHist.Count >= 2)
-                {                    
-                    int lastIdx1 = idxHist[idxHist.Count - 1];
-                    int lastIdx2 = idxHist[idxHist.Count - 2];
-
-                    if(lastIdx1 == lastIdx2 + 1){
-                        if(n - 1 == lastIdx1 + 1){
-                            memo[n] = x >= y ? x : y;
-                        }
-                        else{
-                            memo[n] = x;
-                            idxHist.Add(n - 1);
-                        }
-                    }
-                    else{
-                        if(x >= y){
-                            memo[n] = x;
-                            idxHist.Add(n - 1);
-                        }
-                        else{
-                            memo[n] = y;
-                            idxHist.Add(n - 2);
-                        }
-                    }
-                }
-                else{
-                    if(x >= y){
-                        memo[n] = x;
-                        idxHist.Add(n - 1);
-                    }
-                    else{
-                        memo[n] = y;
-                        idxHist.Add(n - 2);
-                    }
+                    int idx = GetSolution(n - 1) > GetSolution(n - 2) ? (n - 1) : (n - 2);
+                    visited[idx] = true;
+                    memo[n] = stairs[n] + memo[idx];
                 }
                 return memo[n];
             }
