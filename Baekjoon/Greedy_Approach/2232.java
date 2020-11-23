@@ -1,6 +1,5 @@
-//https://www.acmicpc.net/problem/2232
+//Greedy Approach
 import java.util.Scanner;
-//import java.io.FileInputStream;
 
 class Mine {
 	int mineFieldLength;
@@ -76,7 +75,6 @@ class Mine {
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		//Scanner sc = new Scanner(new FileInputStream("input.txt"));
 		Scanner sc = new Scanner(System.in);
 		Mine M = new Mine(sc);
 		M.sol();
