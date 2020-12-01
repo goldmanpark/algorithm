@@ -1,7 +1,5 @@
 import sys
 
-#failed
-
 class MaxHeap:
     heap = [0]
 
@@ -13,12 +11,13 @@ class MaxHeap:
     def Push(self, x):
         self.heap.append(x)
 
-        ''' compare with parent node '''
-        idx = len(self.heap) - 1
+        ''' compare with parent node (from leap to root) '''
+        idx = len(self.heap) - 1 # current Index
         while idx // 2 >= 1:
-            if self.heap[idx] > self.heap[idx // 2]:
-                self.Swap(idx, idx // 2)
-                idx = idx // 2
+            parentIdx = idx // 2
+            if self.heap[idx] > self.heap[parentIdx]:
+                self.Swap(idx, parentIdx)
+                idx = parentIdx
             else:
                 break
 
@@ -29,24 +28,26 @@ class MaxHeap:
         else:
             print(self.heap[1])
 
-            ''' compare with child node '''
+            ''' compare with child node (from root to leap) '''
             self.heap[1] = self.heap[count]
             del self.heap[count]
             idx = 1
-            maxIdx = len(self.heap) - 1
-            while idx * 2 + 1 <= maxIdx:
-                a = idx * 2   #left child
-                b = a + 1   #right child
-                if self.heap[a] > self.heap[b]:
-                    if self.heap[a] > self.heap[idx]:
-                        self.Swap(a, idx)
-                        idx = a
+            maxIdx = count - 1
+
+            while idx * 2 <= maxIdx:
+                leftIdx = idx * 2   #left child index
+                rightIdx = leftIdx + 1   #right child index
+
+                if rightIdx > maxIdx or self.heap[leftIdx] > self.heap[rightIdx]:
+                    if self.heap[leftIdx] > self.heap[idx]:
+                        self.Swap(leftIdx, idx)
+                        idx = leftIdx
                     else:
                         break
                 else:
-                    if self.heap[b] > self.heap[idx]:
-                        self.Swap(b, idx)
-                        idx = b
+                    if self.heap[rightIdx] > self.heap[idx]:
+                        self.Swap(rightIdx, idx)
+                        idx = rightIdx
                     else:
                         break
 
