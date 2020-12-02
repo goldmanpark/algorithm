@@ -16,7 +16,7 @@ using System;
 */
 namespace Solution
 {
-    public class Solution_2751
+    public class Solution_1904
     {
         public static void Main(string[] args)
         {
