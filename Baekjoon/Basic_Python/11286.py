@@ -44,15 +44,16 @@ class AbsHeap:
         self.absSet = set()
 
     def search(self, x):    # return index of x
-        q = Queue()
+        q = Queue()         # queue of indices
         q.enqueue(1)
+        absX = abs(x)
         while q.getSize() > 0:
             idx = q.dequeue()
-            if self.heap[idx] == x:
+            if self.heap[idx].absVal == absX:
                 return idx
-            if idx * 2 < len(self.heap) - 2 and self.heap[idx * 2] < x:
+            if idx * 2 < len(self.heap) - 2 and self.heap[idx * 2].absVal < absX:
                 q.enqueue(idx * 2)
-            if idx * 2 + 1 < len(self.heap) - 2 and self.heap[idx * 2 + 1] < x:
+            if idx * 2 + 1 < len(self.heap) - 2 and self.heap[idx * 2 + 1].absVal < absX:
                 q.enqueue(idx * 2 + 1)        
         return -1   # cannot find
 
@@ -63,12 +64,13 @@ class AbsHeap:
 
     def Push(self, x):
         ''' if heap already has node of x, find it's index'''
-        if x in self.absSet:
-            self.heap[self.search(abs(x))].insert(x)
+        absX = abs(x)
+        if absX in self.absSet:
+            self.heap[self.search(absX)].insert(x)
         else:
             node = Node(x)
             self.heap.append(node)
-            self.absSet.add(x)
+            self.absSet.add(absX)
             idx = len(self.heap) - 1    # last Index
             while idx // 2 >= 1:
                 parentIdx = idx // 2
