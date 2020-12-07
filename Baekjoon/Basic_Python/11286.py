@@ -43,7 +43,7 @@ class AbsHeap:
         self.heap = [0]
         self.absSet = set()
 
-    def search(self, x):    # return index of x
+    def searchIdxofX(self, x):    # return index of x
         q = Queue()         # queue of indices
         q.enqueue(1)
         absX = abs(x)
@@ -51,9 +51,9 @@ class AbsHeap:
             idx = q.dequeue()
             if self.heap[idx].absVal == absX:
                 return idx
-            if idx * 2 < len(self.heap) - 2 and self.heap[idx * 2].absVal < absX:
+            if idx * 2 < len(self.heap) and self.heap[idx * 2].absVal <= absX:
                 q.enqueue(idx * 2)
-            if idx * 2 + 1 < len(self.heap) - 2 and self.heap[idx * 2 + 1].absVal < absX:
+            if idx * 2 + 1 < len(self.heap) and self.heap[idx * 2 + 1].absVal <= absX:
                 q.enqueue(idx * 2 + 1)        
         return -1   # cannot find
 
@@ -66,7 +66,9 @@ class AbsHeap:
         ''' if heap already has node of x, find it's index'''
         absX = abs(x)
         if absX in self.absSet:
-            self.heap[self.search(absX)].insert(x)
+            i = self.searchIdxofX(absX)
+            if i != -1:
+                self.heap[i].insert(x)
         else:
             node = Node(x)
             self.heap.append(node)
@@ -89,7 +91,7 @@ class AbsHeap:
             print(val)
             ''' if root node has no value'''
             if self.heap[1].isUse() == False:
-                self.absSet.remove(val)
+                self.absSet.remove(abs(val))
                 self.heap[1] = self.heap[count]
                 del self.heap[count]
                 idx = 1
