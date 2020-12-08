@@ -21,7 +21,7 @@ class Node:
         elif self.plusVal > 0:
             self.plusVal -= 1
             return self.absVal
-    def isUse(self):
+    def isAvailable(self):
         if self.minusVal == 0  and self.plusVal == 0:
             return False
         else:
@@ -42,8 +42,9 @@ class AbsHeap:
     def __init__(self):
         self.heap = [0]
         self.absSet = set()
+        self.size = 0   # 'size' also means last index of heap
 
-    def searchIdxofX(self, x):    # return index of x
+    def searchIdxofX(self, x):    # return index of abs(x)
         q = Queue()         # queue of indices
         q.enqueue(1)
         absX = abs(x)
@@ -51,9 +52,9 @@ class AbsHeap:
             idx = q.dequeue()
             if self.heap[idx].absVal == absX:
                 return idx
-            if idx * 2 < len(self.heap) and self.heap[idx * 2].absVal <= absX:
+            if idx * 2 <= self.size and self.heap[idx * 2].absVal <= absX:
                 q.enqueue(idx * 2)
-            if idx * 2 + 1 < len(self.heap) and self.heap[idx * 2 + 1].absVal <= absX:
+            if idx * 2 + 1 <= self.size and self.heap[idx * 2 + 1].absVal <= absX:
                 q.enqueue(idx * 2 + 1)        
         return -1   # cannot find
 
@@ -73,7 +74,8 @@ class AbsHeap:
             node = Node(x)
             self.heap.append(node)
             self.absSet.add(absX)
-            idx = len(self.heap) - 1    # last Index
+            self.size += 1
+            idx = self.size    # last Index
             while idx // 2 >= 1:
                 parentIdx = idx // 2
                 if self.heap[idx].absVal < self.heap[parentIdx].absVal:
@@ -83,25 +85,23 @@ class AbsHeap:
                     break
 
     def Pop(self):
-        count = len(self.heap) - 1
-        if count == 0:
+        if self.size == 0:
             print(0)
         else:
             val = self.heap[1].get()
             print(val)
             ''' if root node has no value'''
-            if self.heap[1].isUse() == False:
+            if self.heap[1].isAvailable() == False:
                 self.absSet.remove(abs(val))
-                self.heap[1] = self.heap[count]
-                del self.heap[count]
-                idx = 1
-                maxIdx = count - 1   
+                self.heap[1] = self.heap[self.size]
+                del self.heap[self.size]
+                self.size -= 1
+                idx = 1   
 
-                while idx * 2 <= maxIdx:
+                while idx * 2 <= self.size:
                     leftIdx = idx * 2   #left child index
                     rightIdx = leftIdx + 1   #right child index
-
-                    if rightIdx > maxIdx or self.heap[leftIdx].absVal < self.heap[rightIdx].absVal:
+                    if rightIdx > self.size or self.heap[leftIdx].absVal < self.heap[rightIdx].absVal:
                         if self.heap[leftIdx].absVal < self.heap[idx].absVal:
                             self.swap(leftIdx, idx)
                             idx = leftIdx
