@@ -50,12 +50,14 @@ class AbsHeap:
         absX = abs(x)
         while q.getSize() > 0:
             idx = q.dequeue()
+            leftIdx = idx * 2   #left child index
+            rightIdx = leftIdx + 1   #right child index
             if self.heap[idx].absVal == absX:
                 return idx
-            if idx * 2 <= self.size and self.heap[idx * 2].absVal <= absX:
-                q.enqueue(idx * 2)
-            if idx * 2 + 1 <= self.size and self.heap[idx * 2 + 1].absVal <= absX:
-                q.enqueue(idx * 2 + 1)        
+            if leftIdx <= self.size and self.heap[leftIdx].absVal <= absX:
+                q.enqueue(leftIdx)
+            if rightIdx <= self.size and self.heap[rightIdx].absVal <= absX:
+                q.enqueue(rightIdx)
         return -1   # cannot find
 
     def swap(self, a, b):
@@ -70,6 +72,8 @@ class AbsHeap:
             i = self.searchIdxofX(absX)
             if i != -1:
                 self.heap[i].insert(x)
+            else:
+                print('push err')
         else:
             node = Node(x)
             self.heap.append(node)
