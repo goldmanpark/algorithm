@@ -1,23 +1,19 @@
 import sys
 input = sys.stdin.readline
 
-#Not Complete
+# Longest Increasing Subsequence
+# O(n^2) algorithm
 
 N = int(input())
-arr = input().split()
-memo = [0] * N
-memo[0] = 1
+arr = [0]
+arr.extend(list(map(int, input().split())))
+memo = [0] * (N + 1)
 
-if N == 1:
-    print(memo[0])
-    sys.exit(0)
+for i in range(1, N + 1):
+    last = 0
+    for j in range(i):
+        if arr[j] < arr[i] and memo[last] <= memo[j]:
+            last = j
+        memo[i] = memo[last] + 1
 
-last = arr[0]
-for i in range(1, N):
-    if arr[i] > last:
-        memo[i] = memo[i - 1] + 1
-        last = arr[i]
-    else:
-        memo[i] = memo[i - 1]
-
-print(memo[N - 1])
+print(max(memo))
