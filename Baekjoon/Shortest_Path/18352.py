@@ -4,7 +4,6 @@ input = sys.stdin.readline
 INF = sys.maxsize
 
 '''
-    Failed
     Dijkstra algorithm using priority queue
     N : number of cities(vertex)
     M : roads(edge)
@@ -33,8 +32,11 @@ while len(heap) > 0:
             distance[edge[0]] = cost
             heapq.heappush(heap, (cost, edge[0]))
 
-answer = sum(x == K for x in distance)
-if answer == 0:
+flag = False
+for i in range(N + 1):
+    if distance[i] == K:
+        print(i)
+        flag = True
+
+if flag == False:
     print(-1)
-else:
-    print(answer)
